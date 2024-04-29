@@ -4,7 +4,10 @@ import Loading from '../loading'
 
 const loading = () => {
   return (
-    <Loading title='Search' children={<SearchSkeleton/>}/>
+    <Loading title='Search'>
+      <SearchSkeleton/>
+    </Loading> 
+      
   )
 }
 
