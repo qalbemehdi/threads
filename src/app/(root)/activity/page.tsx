@@ -1,42 +1,74 @@
-import React from 'react';
-import {currentUser} from "@clerk/nextjs";
-import {fetchUser, getActivity} from "@/lib/actions/user.actions";
-import {redirect} from "next/navigation";
-import Link from 'next/link';
 import Image from "next/image";
+import Link from "next/link";
+import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-const Page = async() => {
-    const user = await currentUser();
-    if(!user) return null;
-    const userInfo=await fetchUser(user.id);
-    if(!userInfo?.onboarded) redirect('/onboarding')
+import { fetchUser, getActivity } from "@/lib/actions/user.actions";
+import { truncateString, formatDateWithMeasure } from "@/lib/utils";
 
-    const activity= await getActivity(userInfo?._id)
+async function Page() {
+  const user = await currentUser();
+  if (!user) return null;
 
-    return (
-        <section className={`mt-10 flex flex-col gap-5`}>
-            <h1 className={`head-text mb-5`}>Activity</h1>
-            <section className={`mt-5 flex flex-col gap-5`}>
-                {activity.map((activity)=>(
-                    <Link key={activity._id} href={`/thread/${activity.parentId}`}>
-                        <article className={`activity-card`}>
-                            <div className={`w-8 h-8 relative rounded-[50%]`}>
-                                <Image src={activity.author.image} alt={'profile-photo'}
-                                       fill
-                                       className={"rounded-[50%] object-cover"}
-                                />
-                            </div>
-                            <p className={`!text-small-regular text-light-1`}>
-                                <span className={`mr-1 text-primary-500`}>{activity.author.name}</span>
-                                {" "}
-                                replied to your thread
-                            </p>
-                        </article>
-                    </Link>
-                ))}
-            </section>
-        </section>
-    );
-};
+  const userInfo = await fetchUser(user.id);
+  if (!userInfo?.onboarded) redirect("/onboarding");
+
+  const activity = await getActivity(userInfo._id);
+
+  return (
+    <>
+      <h1 className="head-text">Activity</h1>
+
+      <section className="mt-10 flex flex-col gap-5">
+        {activity.length > 0 ? (
+          <>
+            {activity.map((activity: any) => (
+              <Link
+                key={activity.author._id}
+                href={`${
+                  (activity.parentId && `/thread/${activity.parentId}`) ||
+                  `/profile/${activity.author.id}`
+                }`}
+              >
+                <article className="activity-card">
+                  <Image
+                    src={activity.author.image}
+                    alt="user_logo"
+                    width={20}
+                    height={20}
+                    className="rounded-full object-cover"
+                  />
+                  <ActivityComponent
+                    author={activity.author}
+                    createdAt={activity.createdAt}
+                    parentId={activity.parentId}
+                    activityType={activity.activityType}
+                    text={activity.text}
+                  />
+                </article>
+              </Link>
+            ))}
+          </>
+        ) : (
+          <p className="!text-base-regular text-light-3">No activity yet</p>
+        )}
+      </section>
+    </>
+  );
+}
+
+const ActivityComponent = ({ author, createdAt, activityType, text }: any) => (
+  <p className="!text-small-regular text-light-1">
+    <Link key={author._id} href={`/profile/${author.id}`}>
+      <span className="text-primary-500">{author.name}</span>
+    </Link>{" "}
+    <>
+      {activityType === "follow" && "followed you"}
+      {activityType === "reaction" && "like your thread"}
+      {text && `replied to your thread: "${truncateString(text, 100)}"`}
+    </>{" "}
+    <span className="text-gray-1">~ {formatDateWithMeasure(createdAt)}</span>
+  </p>
+);
 
 export default Page;

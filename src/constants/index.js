@@ -1,42 +1,52 @@
-export  const sidebarLinks=[
+export const sidebarLinks = [
     {
-        imageUrl:'/assets/home.svg',
-        label:'Home',
-        route:"/"
+      imgURL: "/assets/home.svg",
+      route: "/",
+      label: "Home",
     },
     {
-        imageUrl:'/assets/search.svg',
-        label:'Search',
-        route:"/search"
+      imgURL: "/assets/explore.svg",
+      route: "/explore",
+      label: "Explore",
     },
     {
-        imageUrl:'/assets/heart.svg',
-        label:'Activity',
-        route:"/activity"
+      imgURL: "/assets/search.svg",
+      route: "/search",
+      label: "Search",
     },
     {
-        imageUrl:'/assets/create.svg',
-        label:'Create Thread',
-        route:"/create-thread"
+      imgURL: "/assets/heart.svg",
+      route: "/activity",
+      label: "Activity",
     },
     {
-        imageUrl:'/assets/community.svg',
-        label:'Communities',
-        route:"/communities"
+      imgURL: "/assets/create.svg",
+      route: "/create-thread",
+      label: "Create Thread",
     },
     {
-        imageUrl:'/assets/user.svg',
-        label:'Profile',
-        route:"/profile"
-    }
-] ;
-export const profileTabs=[
-    {value:'threads', label:'Threads',icon:'/assets/reply.svg'},
-    {value:'replies', label:'Replies',icon:'/assets/members.svg'},
-    {value:'tagged', label:'Tagged',icon:'/assets/tag.svg'}
-];
-export const communityTabs=[
-    {value:'threads', label:'Threads',icon:'/assets/reply.svg'},
-    {value:'members', label:'Members',icon:'/assets/members.svg'},
-    {value:'requests', label:'Requests',icon:'/assets/request.svg'}
-]
+      imgURL: "/assets/community.svg",
+      route: "/communities",
+      label: "Communities",
+    },
+    {
+      imgURL: "/assets/user.svg",
+      route: "/profile",
+      label: "Profile",
+    },
+  ];
+  
+  export const profileTabs = [
+    { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
+    { value: "followers", label: "Followers", icon: "/assets/members.svg" },
+    { value: "following", label: "Following", icon: "/assets/members.svg" },
+    // { value: "replies", label: "Replies", icon: "/assets/members.svg" },
+    // { value: "tagged", label: "Tagged", icon: "/assets/tag.svg" },
+  ];
+  
+  export const communityTabs = [
+    { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
+    { value: "members", label: "Members", icon: "/assets/members.svg" },
+    { value: "requests", label: "Requests", icon: "/assets/request.svg" },
+  ];
+  
